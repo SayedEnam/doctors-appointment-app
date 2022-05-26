@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import login from "../../../images/login.png";
 
@@ -25,6 +25,7 @@ const Login = () => {
   };
   const handleLoginSubmit = (e) => {
     loginUser(loginData.email, loginData.password);
+
     e.preventDefault();
   };
   return (
@@ -64,9 +65,7 @@ const Login = () => {
           </form>
 
           {isLoading && <CircularProgress />}
-          {user?.email && (
-            <Alert severity="success">Your Account Created Successfully!</Alert>
-          )}
+          {user?.email && <Navigate to="/appointment" />}
 
           {authError && <Alert severity="error">{authError}</Alert>}
         </Grid>

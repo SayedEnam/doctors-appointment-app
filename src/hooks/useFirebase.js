@@ -35,7 +35,8 @@ const useFirebase = () => {
         setAuthError();
       })
       .catch((error) => {
-        setAuthError(error.message);
+        setAuthError("User Email or Password is wrong");
+        //setAuthError(error.message);
       })
       .finally(() => setIsLoading(false));
   };
@@ -51,7 +52,7 @@ const useFirebase = () => {
       setIsLoading(false);
     });
     return () => unsubscribe;
-  }, []);
+  }, [auth]);
   const logout = () => {
     setIsLoading(true);
     signOut(auth)
