@@ -1,9 +1,12 @@
 import {
   createUserWithEmailAndPassword,
   getAuth,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import initializeFirebase from "../Pages/Login/Firebase/Firebase.init";
@@ -16,11 +19,21 @@ const useFirebase = () => {
   const [authError, setAuthError] = useState();
 
   const auth = getAuth();
-  const registerUser = (email, password) => {
+  const googlSignInProvider = new GoogleAuthProvider();
+  const registerUser = (email, password, name) => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        const newUser = { email, displayName: name };
+        setUser(newUser);
         setAuthError();
+
+        // send name to firebase after creation
+        updateProfile(auth.currentUser, {
+          displayName: name,
+        })
+          .then(() => {})
+          .catch((error) => {});
       })
       .catch((error) => {
         setAuthError(error.message);
@@ -32,7 +45,7 @@ const useFirebase = () => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        setAuthError();
+        setAuthError("");
       })
       .catch((error) => {
         setAuthError("User Email or Password is wrong");
@@ -41,6 +54,19 @@ const useFirebase = () => {
       .finally(() => setIsLoading(false));
   };
 
+  //Sign In with Google
+  const signInWithGoogle = () => {
+    setIsLoading(true);
+    signInWithPopup(auth, googlSignInProvider)
+      .then((result) => {
+        const user = result.user;
+        setAuthError("");
+      })
+      .catch((error) => {
+        setAuthError("User Email or Password is wrong");
+      })
+      .finally(() => setIsLoading(false));
+  };
   //observer user state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -70,6 +96,7 @@ const useFirebase = () => {
     authError,
     registerUser,
     loginUser,
+    signInWithGoogle,
     logout,
   };
 };

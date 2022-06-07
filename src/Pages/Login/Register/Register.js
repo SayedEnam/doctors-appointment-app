@@ -17,7 +17,7 @@ const Register = () => {
 
   const { user, registerUser, isLoading, authError } = useAuth();
 
-  const handleOnChange = (e) => {
+  const handleOnBlur = (e) => {
     const field = e.target.name;
     const value = e.target.value;
     const newRegisterData = { ...registerData };
@@ -29,7 +29,7 @@ const Register = () => {
       alert("password does not match");
       return;
     }
-    registerUser(registerData.email, registerData.password);
+    registerUser(registerData.email, registerData.password, registerData.name);
     e.preventDefault();
   };
   return (
@@ -42,11 +42,19 @@ const Register = () => {
               <TextField
                 sx={{ width: "75%", m: 1 }}
                 id="standard-basic"
+                label="Name"
+                name="name"
+                variant="standard"
+                onBlur={handleOnBlur}
+              />
+              <TextField
+                sx={{ width: "75%", m: 1 }}
+                id="standard-basic"
                 label="Email"
                 name="email"
                 type="email"
                 variant="standard"
-                onChange={handleOnChange}
+                onBlur={handleOnBlur}
               />
               <TextField
                 sx={{ width: "75%", m: 1 }}
@@ -55,7 +63,7 @@ const Register = () => {
                 name="password"
                 type="password"
                 variant="standard"
-                onChange={handleOnChange}
+                onBlur={handleOnBlur}
               />
               <TextField
                 sx={{ width: "75%", m: 1 }}
@@ -64,7 +72,7 @@ const Register = () => {
                 name="password2"
                 type="password"
                 variant="standard"
-                onChange={handleOnChange}
+                onBlur={handleOnBlur}
               />
               <Button
                 sx={{ width: "75%", m: 1 }}
