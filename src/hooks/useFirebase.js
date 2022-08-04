@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  updateProfile,
+  updateProfile
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import initializeFirebase from "../Pages/Login/Firebase/Firebase.init";
@@ -24,9 +24,12 @@ const useFirebase = () => {
     setIsLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
+        setAuthError();
         const newUser = { email, displayName: name };
         setUser(newUser);
-        setAuthError();
+        
+        // save user to the database
+        saveUser (email, name, 'POST');
 
         // send name to firebase after creation
         updateProfile(auth.currentUser, {
@@ -60,6 +63,7 @@ const useFirebase = () => {
     signInWithPopup(auth, googlSignInProvider)
       .then((result) => {
         const user = result.user;
+        saveUser(user.email, user.displayName, 'PUT')
         setAuthError("");
       })
       .catch((error) => {
@@ -89,7 +93,19 @@ const useFirebase = () => {
         // An error happened.
       })
       .finally(() => setIsLoading(false));
-  };
+  }
+
+  const saveUser = (email, displayName, method) =>{
+    const user = {email, displayName}
+    fetch("http://localhost:5000/users", {
+      method: method,
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(user)
+    })
+    .then();
+  }
   return {
     user,
     isLoading,

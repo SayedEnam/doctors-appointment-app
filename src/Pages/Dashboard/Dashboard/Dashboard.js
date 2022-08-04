@@ -1,7 +1,7 @@
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import { Button, Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,9 +16,8 @@ import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { Link } from "react-router-dom";
-import Calender from "../../Shared/Calendar/Calendar";
-import Appointments from "./Appointments/Appointments";
+import { Link, Outlet } from "react-router-dom";
+
 
 const drawerWidth = 200;
 
@@ -29,7 +28,7 @@ interface Props {
 export default function Dashboard(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
+
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -42,6 +41,14 @@ export default function Dashboard(props: Props) {
       <Link to={"/appointment"}>
         <Button color="inherit">Appointment</Button>
       </Link>
+      <Link to={"/dashboard"}>
+        <Button color="inherit">Dashboard</Button>
+      </Link>
+      { user.
+      <Link to={"/dashboard/makeadmin"}>
+        <Button color="inherit">Make Admin</Button>
+      </Link>
+      }
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -61,7 +68,9 @@ export default function Dashboard(props: Props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    
+    <Box>
+      <Outlet></Outlet>
       <CssBaseline />
       <AppBar
         position="fixed"
@@ -104,6 +113,7 @@ export default function Dashboard(props: Props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              
             },
           }}
         >
@@ -123,26 +133,7 @@ export default function Dashboard(props: Props) {
           {drawer}
         </Drawer>
       </Box>
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Toolbar />
-        <Typography paragraph>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={5}>
-              <Calender date={date} setDate={setDate} />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Appointments date={date} />
-            </Grid>
-          </Grid>
-        </Typography>
-      </Box>
+
     </Box>
   );
 }

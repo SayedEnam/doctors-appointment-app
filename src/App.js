@@ -3,10 +3,13 @@ import "./App.css";
 import AuthProvider from "./contexts/AuthProvider/AuthProvider";
 import Appointment from "./Pages/Appointment/Appointment/Appointment";
 import Dashboard from "./Pages/Dashboard/Dashboard/Dashboard";
+import DashboardHome from "./Pages/Dashboard/DashboardHome/DashboardHome";
+import MakeAdmin from "./Pages/Dashboard/MakeAdmin/MakeAdmin";
 import Home from "./Pages/Home/Home/Home";
 import Login from "./Pages/Login/Login/Login";
 import PrivateRoute from "./Pages/Login/PrivateRoute/PrivateRoute";
 import Register from "./Pages/Login/Register/Register";
+
 
 function App() {
   return (
@@ -26,13 +29,16 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
                 </PrivateRoute>
               }
-            />
+            >
+              <Route index element={<DashboardHome></DashboardHome>}></Route>
+              <Route path="makeadmin" element={<MakeAdmin></MakeAdmin>}></Route>
+            </Route>
           </Routes>
         </Router>
       </AuthProvider>
