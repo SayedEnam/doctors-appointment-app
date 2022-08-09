@@ -1,9 +1,9 @@
-import React from 'react'
+import { Button, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import doctor from '../../../images/doctor.png'
-import bg from '../../../images/appointment-bg.png'
-import { Button, Typography } from '@mui/material';
+import React from 'react';
+import bg from '../../../images/appointment-bg.png';
+import doctor from '../../../images/doctor.png';
 
 const appointmentBg = {
         background: `url(${bg})`,

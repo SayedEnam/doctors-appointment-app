@@ -1,9 +1,9 @@
-import React from 'react'
+import { Button, Container, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import chair from '../../../images/chair.png'
-import bg from '../../../images/bg.png'
-import { Button, Container, Typography } from '@mui/material';
+import React from 'react';
+import bg from '../../../images/bg.png';
+import chair from '../../../images/chair.png';
 
 
 
@@ -32,6 +32,7 @@ const Banner = () => {
             1500s, when an unknown printer took a galley of type and scrambled it to
             make a type specimen book.
         </Typography>
+        
         <Button variant="contained" style={{backgroundColor: '#5ce7ed', marginTop: 20}}>Get Appointment</Button>
         </Box>
       </Grid>

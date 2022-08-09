@@ -1,6 +1,4 @@
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { Button } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,15 +6,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 import { Link, Outlet } from "react-router-dom";
+import useAuth from "../../../hooks/useAuth";
 
 
 const drawerWidth = 200;
@@ -28,6 +22,7 @@ interface Props {
 export default function Dashboard(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const {admin} = useAuth();
 
 
   const handleDrawerToggle = () => {
@@ -38,18 +33,25 @@ export default function Dashboard(props: Props) {
     <div>
       <Toolbar />
       <Divider />
-      <Link to={"/appointment"}>
-        <Button color="inherit">Appointment</Button>
-      </Link>
+      
       <Link to={"/dashboard"}>
         <Button color="inherit">Dashboard</Button>
       </Link>
-      { user.
-      <Link to={"/dashboard/makeadmin"}>
+      <Link to={"/appointment"}>
+        <Button color="inherit">Appointment</Button>
+      </Link>
+      { admin &&
+        <Box>
+        <Link to={"/dashboard/makeadmin"}>
         <Button color="inherit">Make Admin</Button>
       </Link>
+      <Link to={"/dashboard/adddoctor"}>
+        <Button color="inherit">Add Doctor</Button>
+      </Link>
+        </Box>
       }
-      <List>
+      
+      {/* <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
@@ -60,7 +62,7 @@ export default function Dashboard(props: Props) {
             </ListItemButton>
           </ListItem>
         ))}
-      </List>
+      </List> */}
     </div>
   );
 

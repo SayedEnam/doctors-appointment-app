@@ -35,7 +35,7 @@ const Navigation = () => {
           {user?.email ? (
             <Box>
               <NavLink to="/dashboard">
-                <Button color="inherit">Dashboard</Button>
+                <Button style={{ color: "white", textDecoration: "none" }}>Dashboard</Button>
               </NavLink>
               <Button onClick={logout} color="inherit">
                 Logout

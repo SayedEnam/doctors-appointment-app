@@ -50,13 +50,14 @@ const AvailableAppointments = ({ date }) => {
         sx={{ color: "info.main", fontWeight: 600 }}
         variant="h5"
         component="div"
+        mt={5}
       >
         Available Appointments on {date.toDateString()}
       </Typography>
       {bookingSuccess && (
         <Alert severity="success">Booked your Appointment!!!</Alert>
       )}
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mt={3}>
         {bookings.map((booking) => (
           <Booking
             key={booking.id}

@@ -1,7 +1,14 @@
-import { Box, Button, TextField } from "@mui/material";
-import * as React from "react";
+import { Alert, Box, Button, Container, TextField, Typography } from "@mui/material";
+import React, { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+
+
 const MakeAdmin = () => {
-        const [email, setEmail] = React.useState('')
+        const [email, setEmail] = useState('')
+        const [success, setSuccess] = useState(false)
+        const {token} = useAuth();
+
+
         const handleBlur = e =>{
             setEmail(e.target.value)
         }
@@ -11,18 +18,33 @@ const MakeAdmin = () => {
         fetch("http://localhost:5000/users/admin", {
             method: "PUT",
             headers: {
+                "authorization": `Bearer ${token}`,
                 "content-type": "application/json",
             },
             body: JSON.stringify(user)
         })
         .then(res=> res.json())
         .then(data=> {
-            console.log(data)
+            if(data.modifiedCount){
+                console.log(data)
+                setEmail('')
+                setSuccess(true)
+            }
+
         })
         e.preventDefault();
     }
     return ( 
-    <Box sx={{ display: 'grid' }} mt={20}>
+        <Container fixed>
+    <Box sx={{ 
+        display: 'grid',
+        width: '75%',
+        textAlign: 'center',
+        mx: 'auto',
+         }} 
+         mt={20}
+         
+         >
         <h2> Make an Admin</h2>
         <form onSubmit={onSubmitform}>
         <TextField 
@@ -31,10 +53,16 @@ const MakeAdmin = () => {
         variant="standard" 
         type="email"
         onBlur={handleBlur}
+    
         />
         <Button type="submit" variant="contained">Make a Admin</Button>
-        </form>    
+        </form> 
+        <Typography variant="subtitle1" component="div">
+        {success && <Alert severity="success">Your Made an Admin!!</Alert>} 
+        </Typography>
+          
     </Box>
+    </Container>
      );
 }
  

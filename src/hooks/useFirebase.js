@@ -1,7 +1,6 @@
 import {
   createUserWithEmailAndPassword,
-  getAuth,
-  GoogleAuthProvider,
+  getAuth, getIdToken, GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -17,6 +16,8 @@ const useFirebase = () => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [authError, setAuthError] = useState();
+  const [admin, setAdmin] = useState(false);
+  const [token, setToken] = useState('');
 
   const auth = getAuth();
   const googlSignInProvider = new GoogleAuthProvider();
@@ -76,6 +77,10 @@ const useFirebase = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+        getIdToken(user)
+        .then(idToken => {
+          setToken(idToken)
+        })
       } else {
         setUser({});
       }
@@ -83,6 +88,16 @@ const useFirebase = () => {
     });
     return () => unsubscribe;
   }, [auth]);
+
+ //check admin user
+
+  useEffect(() =>{
+    fetch(`http://localhost:5000/users/${user.email}`)
+    .then(res=>res.json())
+    .then(data=>setAdmin(data.Admin))
+  }, [user.email])
+
+  //logout user
   const logout = () => {
     setIsLoading(true);
     signOut(auth)
@@ -108,6 +123,8 @@ const useFirebase = () => {
   }
   return {
     user,
+    admin,
+    token,
     isLoading,
     authError,
     registerUser,

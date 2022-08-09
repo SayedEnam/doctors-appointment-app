@@ -10,15 +10,19 @@ import React, { useEffect, useState } from "react";
 import useAuth from "../../../../hooks/useAuth";
 
 const Appointments = ({ date }) => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [appointments, setAppointments] = useState([]);
 
   useEffect(() => {
     const url = `http://localhost:5000/appointments?email=${user.email}&date=${date}`;
-    fetch(url)
+    fetch(url, {
+      headers: {
+        "authorization" : `Bearer ${token}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => setAppointments(data));
-  }, [date, user.email]);
+  }, [date,token, user.email]);
 
   return (
     <div>
@@ -50,7 +54,9 @@ const Appointments = ({ date }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      
     </div>
+    
   );
 };
 
